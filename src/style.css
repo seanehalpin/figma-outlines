@@ -1,0 +1,215 @@
+:root {
+  --white: hsla(0, 0%, 100%, 1);
+  --black: hsla(0, 0%, 14%, 1);
+  --grey: hsla(0, 0%, 94%, 1);
+  --grey-dark: hsla(0, 6%, 83%, 1);
+  --rainbow: conic-gradient(from 128.8deg at 49.47% 51.06%, #FFC062 -79.73deg, #1ABCFE 1.15deg, #0ACF83 78.48deg, #A259FF 144.34deg, #F21E6A 208.99deg, #FFC062 280.27deg, #1ABCFE 361.15deg);
+
+  --black-light: hsla(0, 0%, 0%, 0.1);
+  --black-border: hsla(0, 0%, 0%, 1);
+
+  --blue-bg: hsla(209, 100%, 96%, 1);
+  --blue-full: hsla(209, 100%, 50%, 1);
+  --blue-light: hsla(209, 100%, 43%, 0.1);
+  --blue-border: hsla(209, 100%, 43%, 1);
+  --blue-text: var(--white);
+
+  --purple-bg: hsla(251, 100%, 98%, 1);
+  --purple-full: hsla(250, 100%, 69%, 1);
+  --purple-light: hsla(250, 100%, 69%, 0.1);
+  --purple-border: hsla(250, 93%, 61%, 1);
+  --purple-text: var(--white);
+
+  --pink-bg: hsla(316, 100%, 98%, 1);
+  --pink-full: hsla(314, 100%, 43%, 1);
+  --pink-light: hsla(314, 100%, 43%, 0.1);
+  --pink-border: hsla(314, 100%, 43%, 1);
+  --pink-fake: hsla(316, 100%, 68%, 1);
+  --pink-text: var(--white);
+
+  --yellow-bg: hsla(47, 91%, 95%, 1);
+  --yellow-full: hsla(47, 100%, 61%, 1);
+  --yellow-light: hsla(47, 100%, 61%, 0.1);
+  --yellow-border: hsla(47, 100%, 31%, 1);
+  --yellow-text: hsla(47, 100%, 15%, 1);
+
+  --lime-bg: hsla(167, 100%, 97%, 1);
+  --lime-full: hsla(168, 100%, 54%, 1);
+  --lime-light: hsla(168, 100%, 54%, 0.1);
+  --lime-border: hsla(168, 99%, 26%, 1);
+  --lime-text: hsla(168, 93%, 14%, 1);
+
+  --charcoal-bg: hsla(0, 0%, 15%, 1);
+  --charcoal-full: hsla(0, 0%, 25%, 1);
+  --charcoal-light: hsla(0, 0%, 100%, 0.1);
+  --charcoal-border: hsla(0, 0%, 100%, 1);
+  --charcoal-text: hsla(0, 0%, 100%, 1);
+
+  --radius-lg: 10px;
+  --radius-md: 6px;
+
+  --padding-md: 8px;
+
+  --size-btn: 30px;
+
+  --transition-default: all 0.2s ease-in-out;
+}
+
+button.blue {
+  background-color: var(--blue-full) !important;
+}
+
+.color-picker label, .size-picker label {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  align-content: center !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+}
+
+.color-picker > div, .size-picker > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.color-picker input, .size-picker input {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+}
+
+.color-picker label:before , .size-picker label:before {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 14px !important;
+  height: 14px !important;
+  border: 1px solid transparent!important;
+  /* transition: all 0.25s ease-in-out; */
+}
+
+.color-picker input:checked+label:before, .size-picker input:checked+label:before {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.color-picker input:enabled:focus+label:before, .size-picker input:enabled:focus+label:before {
+  box-shadow: none !important;
+}
+
+.color-picker.blue label:before {
+  background: var(--blue-full) !important;
+}
+.color-picker.blue input:checked+label:before {
+  background: var(--blue-full) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--blue-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+}
+
+.color-picker.pink label:before {
+  background: var(--pink-fake) !important;
+}
+.color-picker.pink input:checked+label:before {
+  background: var(--pink-fake) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--pink-fake), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+}
+
+.color-picker.purple label:before {
+  background: var(--purple-full) !important;
+}
+.color-picker.purple input:checked+label:before {
+  background: var(--purple-full) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--purple-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+}
+
+.color-picker.yellow label:before {
+  background: var(--yellow-full) !important;
+}
+.color-picker.yellow input:checked+label:before {
+  background: var(--yellow-full) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--yellow-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+}
+
+.color-picker.lime label:before {
+  background: var(--lime-full) !important;
+}
+.color-picker.lime input:checked+label:before {
+  background: var(--lime-full) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--lime-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+}
+
+.color-picker.black label:before {
+  background: var(--charcoal-full) !important;
+}
+.color-picker.black input:checked+label:before {
+  background: var(--charcoal-full) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--charcoal-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+}
+
+.white .color-picker.black label:before {
+  background: var(--charcoal-full) !important;
+  box-shadow: 0 0 0 2px var(--charcoal-light)
+}
+
+.color-picker.white label:before {
+  background: var(--white) !important;
+  box-shadow: 0 0 0 2px var(--grey-dark);
+}
+.color-picker.white input:checked+label:before {
+  background: var(--grey) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--grey), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+}
+
+.white .color-picker.white input:checked+label:before {
+  background: var(--grey) !important;
+  box-shadow: inset 0 0 0 2px var(--charcoal-full), 0 0 0 1px var(--grey) !important;
+}
+
+button.blue {
+  background-color: var(--blue-full) !important;
+}
+button.lime {
+  background-color: var(--lime-full) !important;
+  color: var(--lime-text) !important;
+}
+button.purple {
+  background-color: var(--purple-full) !important;
+}
+button.pink {
+  background-color: var(--pink-full) !important;
+}
+button.yellow {
+  background-color: var(--yellow-full) !important;
+  color: var(--yellow-text) !important;
+}
+button.black {
+  background-color: var(--charcoal-full) !important;
+}
+
+button.white {
+  background-color: var(--charcoal-full) !important;
+  border: 1px solid var(--white) !important;
+}
+
+.size-picker label:before {
+  display: none !important;
+}
+
+.size-picker input:checked+label {
+  background: var(--white) !important;
+  box-shadow: inset 0 0 0 2px var(--blue);
+  border-radius: 6px;
+}
+
+
+.white .size-picker span {
+  color: var(--white);
+}
+
+.white .size-picker input:checked+label {
+  background: var(--charcoal-full) !important;
+  box-shadow: inset 0 0 0 2px var(--white);
+}
