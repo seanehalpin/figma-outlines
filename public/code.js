@@ -5,7 +5,6 @@ let r = 221;
 let g = 0;
 let b = 169;
 let fontsize = 12;
-let frameId = '';
 let arrayAll = [];
 let page = figma.currentPage;
 function setStorage(storageName, storageValue) {
@@ -52,7 +51,7 @@ function fireItUp() {
                         let heightTop = node.paddingTop;
                         let height = node.height;
                         let width = node.width;
-                        frameId = node.id;
+                        // frameId = node.id
                         let sides = ['Top', 'Right', 'Bottom', 'Left'];
                         let children = node.children;
                         children = children.slice(0, -1);

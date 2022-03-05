@@ -69,7 +69,7 @@ function fireItUp(){
             let height = node.height
             let width = node.width
 
-            frameId = node.id
+            // frameId = node.id
 
             let sides = ['Top', 'Right', 'Bottom', 'Left']
 
