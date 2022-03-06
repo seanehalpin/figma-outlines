@@ -216,4 +216,3 @@ figma.ui.onmessage = msg => {
         fireItUp();
     }
 };
-//# sourceMappingURL=code.js.map
