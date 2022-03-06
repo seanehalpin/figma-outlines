@@ -3,6 +3,7 @@
   --black: hsla(0, 0%, 14%, 1);
   --grey: hsla(0, 0%, 94%, 1);
   --grey-dark: hsla(0, 6%, 83%, 1);
+  --border: hsla(0, 0%, 90%, 1);
   --rainbow: conic-gradient(from 128.8deg at 49.47% 51.06%, #FFC062 -79.73deg, #1ABCFE 1.15deg, #0ACF83 78.48deg, #A259FF 144.34deg, #F21E6A 208.99deg, #FFC062 280.27deg, #1ABCFE 361.15deg);
 
   --black-light: hsla(0, 0%, 0%, 0.1);
@@ -47,6 +48,7 @@
 
   --radius-lg: 10px;
   --radius-md: 6px;
+  --radius-sm: 4px;
 
   --padding-md: 8px;
 
@@ -86,15 +88,16 @@ button.blue {
 .color-picker label:before , .size-picker label:before {
   margin: 0 !important;
   padding: 0 !important;
-  width: 14px !important;
-  height: 14px !important;
-  border: 1px solid transparent!important;
+  width: 16px !important;
+  height: 16px !important;
+  border: 2px solid var(--white)!important;
   /* transition: all 0.25s ease-in-out; */
 }
 
 .color-picker input:checked+label:before, .size-picker input:checked+label:before {
   width: 18px !important;
   height: 18px !important;
+  border: 1px solid transparent!important;
 }
 
 .color-picker input:enabled:focus+label:before, .size-picker input:enabled:focus+label:before {
@@ -130,7 +133,7 @@ button.blue {
 }
 .color-picker.yellow input:checked+label:before {
   background: var(--yellow-full) !important;
-  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--yellow-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--yellow-full), inset 0 0 0 4px rgba(0,0,0,0.05) !important;
 }
 
 .color-picker.lime label:before {
@@ -138,7 +141,7 @@ button.blue {
 }
 .color-picker.lime input:checked+label:before {
   background: var(--lime-full) !important;
-  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--lime-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--lime-full), inset 0 0 0 4px rgba(0,0,0,0.05) !important;
 }
 
 .color-picker.black label:before {
@@ -149,23 +152,15 @@ button.blue {
   box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--charcoal-full), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
 }
 
-.white .color-picker.black label:before {
-  background: var(--charcoal-full) !important;
-  box-shadow: 0 0 0 2px var(--charcoal-light)
-}
-
 .color-picker.white label:before {
   background: var(--white) !important;
-  box-shadow: 0 0 0 2px var(--grey-dark);
+  box-shadow: 0 0 0 2px var(--grey-dark) !important;
+  border: 0 !important;
 }
 .color-picker.white input:checked+label:before {
-  background: var(--grey) !important;
-  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 1px var(--grey), inset 0 0 0 4px rgba(0,0,0,0.1) !important;
-}
-
-.white .color-picker.white input:checked+label:before {
-  background: var(--grey) !important;
-  box-shadow: inset 0 0 0 2px var(--charcoal-full), 0 0 0 1px var(--grey) !important;
+  background: var(--white) !important;
+  border: 0 !important;
+  box-shadow: inset 0 0 0 2px var(--white), 0 0 0 2px var(--charcoal-full), inset 0 0 0 4px var(--charcoal-full) !important;
 }
 
 button.blue {
@@ -212,4 +207,16 @@ button.white {
 .white .size-picker input:checked+label {
   background: var(--charcoal-full) !important;
   box-shadow: inset 0 0 0 2px var(--white);
+}
+
+.inner .input + .input {
+  margin-left: 6px;
+}
+
+.inner > div {
+  width: 100%;
+}
+
+.inner > div + div {
+  margin-left: 6px;
 }

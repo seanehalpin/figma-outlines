@@ -2,7 +2,7 @@
 
   import { GlobalCSS } from 'figma-plugin-ds-svelte'
   import styles from './style.css'
-  import Nav from './components/Nav.svelte'
+  import Settings from './components/Settings.svelte'
   import Preview from './components/Preview.svelte'
 
   $: theme = "blue"
@@ -28,16 +28,17 @@
     
     if (event.data.pluginMessage.theme) {
       theme = event.data.pluginMessage.theme
-      console.log(theme)
+      // console.log(theme)
     }
   }
 
 </script>
 
 
-<div class="holder {theme}">
+<div class="holder">
   <Preview {theme} {size} />
-  <Nav {theme} {size} on:message={handleTheme} runFunction={create}/>
+  <Settings {theme} {size} on:message={handleTheme} runFunction={create}/>
+
 </div>
 
 
@@ -47,30 +48,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  min-height: 237px;
-  transition: background 0.2s ease-in-out;
 }
 
-.blue {
-  background-color: var(--blue-bg);
-}
-.pink {
-  background-color: var(--pink-bg);
-}
-.purple {
-  background-color: var(--purple-bg);
-}
-.yellow {
-  background-color: var(--yellow-bg);
-}
-.lime {
-  background-color: var(--lime-bg);
-}
-.black {
-  background-color: var(--grey);
-}
-.white {
-  background-color: var(--charcoal-bg);
-}
 
 </style>

@@ -4,24 +4,28 @@
   let text = "20"
 </script>
 
-<div class="preview {theme} {size}">
-  <div class="hilite top {theme}">{text}</div>
-  <div class="hilite bottom {theme}">{text}</div>
-  <div class="hilite left {theme}"><span>{text}</span></div>
-  <div class="hilite right {theme}"><span>{text}</span></div>
+<div class="preview-holder {theme}">
+  <div class="preview {theme} {size}">
+    <div class="hilite top {theme}">{text}</div>
+    <div class="hilite bottom {theme}">{text}</div>
+    <div class="hilite left {theme}"><span>{text}</span></div>
+    <div class="hilite right {theme}"><span>{text}</span></div>
+  </div>
 </div>
 
 
 <style>
+
+  .preview-holder {
+    padding: 16px;
+    transition: background 0.2s ease-in-out;
+  }
   
   .preview {
-    width: 220px;
+    width: 100%;
     height: 70px;
     background: var(--white);
-    position: absolute;
-    left: 50%;
-    top: 50px;
-    transform: translate3d(-50%,0,0);
+    position: relative;
     pointer-events: none;
   }
 
@@ -116,6 +120,29 @@
     background: var(--black-light);
     border-color: var(--black-border);
     color: var(--black);
+  }
+
+
+  .preview-holder.blue {
+    background-color: var(--blue-bg);
+  }
+  .preview-holder.pink {
+    background-color: var(--pink-bg);
+  }
+  .preview-holder.purple {
+    background-color: var(--purple-bg);
+  }
+  .preview-holder.yellow {
+    background-color: var(--yellow-bg);
+  }
+  .preview-holder.lime {
+    background-color: var(--lime-bg);
+  }
+  .preview-holder.black {
+    background-color: var(--grey);
+  }
+  .preview-holder.white {
+    background-color: var(--charcoal-bg);
   }
 
 </style>

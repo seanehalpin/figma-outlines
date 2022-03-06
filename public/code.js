@@ -23,7 +23,7 @@ function getSavedColor() {
         });
     });
 }
-figma.showUI(__html__, { width: 320, height: 237 });
+figma.showUI(__html__, { width: 260, height: 322 });
 getSavedColor();
 function fireItUp() {
     let color1 = r / 255;
@@ -216,3 +216,4 @@ figma.ui.onmessage = msg => {
         fireItUp();
     }
 };
+//# sourceMappingURL=code.js.map

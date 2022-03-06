@@ -29,7 +29,7 @@ function getSavedColor() {
   })
 }
 
-figma.showUI(__html__, {width: 320, height: 237 })
+figma.showUI(__html__, {width: 260, height: 322 })
 
 getSavedColor()
 
