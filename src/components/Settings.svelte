@@ -8,7 +8,7 @@
   export let theme = "blue"
   export let size = "small"
   export let radius = "0"
-  export let stroke = "2,2"
+  export let stroke = "1 2"
 
   let sizeArray = [
     { 'value': 'small', 'label': '8', 'group': null, 'selected': true },
@@ -20,15 +20,16 @@
     { 'value': '0', 'label': '0', 'group': null, 'selected': true },
     { 'value': '4', 'label': '4', 'group': null, 'selected': false },
     { 'value': '10', 'label': '10', 'group': null, 'selected': false },
-    { 'value': '20', 'label': '20', 'group': null, 'selected': false },
+    // { 'value': '20', 'label': '20', 'group': null, 'selected': false },
   ]
 
   let dashArray = [
-    { 'value': '2,2', 'label': '2,2', 'group': null, 'selected': true },
-    { 'value': '4,4', 'label': '4,4', 'group': null, 'selected': false },
-    { 'value': '6,6', 'label': '6,6', 'group': null, 'selected': false },
-    { 'value': '10,10', 'label': '10,10', 'group': null, 'selected': false },
+    { 'value': '1 2', 'label': '1,2', 'group': null, 'selected': true },
+    { 'value': '2 3', 'label': '2,3', 'group': null, 'selected': false },
+    { 'value': '4 5', 'label': '4,5', 'group': null, 'selected': false },
+    { 'value': '10 2', 'label': '10,2', 'group': null, 'selected': false },
   ]
+
 
   $: reactiveTheme = theme
 
@@ -48,12 +49,14 @@
     {size: "large", symbol: "L"},
   ]
 
-  function updateTheme(theme, size) {
+  function updateTheme(theme, size, radius, stroke) {
     dispatch('message', {
       theme: theme,
-      size: size
+      size: size,
+      radius: radius,
+      stroke: stroke
     })
-    console.log(theme,size)
+    console.log(theme,size, radius, stroke)
   }
 
 </script>
@@ -62,7 +65,7 @@
   <Section>Color</Section>
   <div class="nav color">
     {#each colors as color}
-    <div class="block" on:click={() => updateTheme(color.color, size.value)}>
+    <div class="block" on:click={() => updateTheme(color.color, size.value, radius.value, stroke.value)}>
       <div class="color-picker {color.color}">
         <Radio bind:group={reactiveTheme} value={color.color}></Radio>
       </div>
@@ -77,17 +80,19 @@
       iconName={IconText} 
       bind:menuItems={sizeArray} 
       bind:value={size}
-      on:change={() => updateTheme(theme, size.value)}
+      on:change={() => updateTheme(theme, size.value, radius.value, stroke.value)}
     />
     <SelectMenu 
       iconName={IconCornerRadius} 
       bind:menuItems={radiusArray} 
-      bind:value={radius}
+      bind:value={radius} 
+      on:change={() => updateTheme(theme, size.value, radius.value, stroke.value)}
     />
     <SelectMenu 
       iconName={IconGroup} 
       bind:menuItems={dashArray} 
-      bind:value={stroke}
+      bind:value={stroke} 
+      on:change={() => updateTheme(theme, size.value, radius.value, stroke.value)}
     />
   </div>
 </div>

@@ -8,10 +8,14 @@
 
   $: theme = "blue"
   $: size = "small"
+  $: radius = "0"
+  $: stroke = "1 2"
 
   function handleTheme(event) {
     theme = event.detail.theme
     size = event.detail.size
+    radius = event.detail.radius
+    stroke = event.detail.stroke
   }
 
   function create() {
@@ -20,6 +24,8 @@
       'type': 'outline', 
       'theme': theme,
       'size': size,
+      'radius': radius,
+      'stroke': stroke
     } }, '*');
 
     // console.log("fired create!")
@@ -37,12 +43,12 @@
 
 
 <div class="holder">
-  <Preview {theme} {size} />
-  <Settings {theme} {size} on:message={handleTheme} runFunction={create}/>
+  <Preview {theme} {size} {radius} {stroke} />
+  <Settings {theme} {size} {radius} {stroke} on:message={handleTheme} runFunction={create}/>
 
   <div class="footer">
     <Button variant="Tertiary">Guide</Button>
-    <Button variant="secondary" on:click={() => create()}>Create</Button>
+    <Button variant="secondary" on:click={() => create()}>Run</Button>
   </div>
 </div>
 
