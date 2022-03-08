@@ -7,46 +7,63 @@
 
   export let theme = "blue"
   export let size = "small"
-  export let radius = "0"
+  export let radius = "small"
   export let stroke = "1 2"
 
-  let sizeArray = [
+  $: sizeArray = [
     { 'value': 'small', 'label': '8', 'group': null, 'selected': true },
     { 'value': 'medium', 'label': '12', 'group': null, 'selected': false },
     { 'value': 'large', 'label': '16', 'group': null, 'selected': false },
   ]
 
-  let radiusArray = [
-    { 'value': '0', 'label': '0', 'group': null, 'selected': true },
-    { 'value': '4', 'label': '4', 'group': null, 'selected': false },
-    { 'value': '10', 'label': '10', 'group': null, 'selected': false },
+  $: sizeArray.forEach(element => {
+    element.selected = false
+    if(element.value == size) {
+      element.selected = true
+      sizeArray = sizeArray
+    }
+  })
+
+  $: radiusArray = [
+    { 'value': 'small', 'label': 'S', 'group': null, 'selected': true },
+    { 'value': 'medium', 'label': 'M', 'group': null, 'selected': false },
+    { 'value': 'large', 'label': 'L', 'group': null, 'selected': false },
     // { 'value': '20', 'label': '20', 'group': null, 'selected': false },
   ]
 
-  let dashArray = [
-    { 'value': '1 2', 'label': '1,2', 'group': null, 'selected': true },
-    { 'value': '2 3', 'label': '2,3', 'group': null, 'selected': false },
-    { 'value': '4 5', 'label': '4,5', 'group': null, 'selected': false },
-    { 'value': '10 2', 'label': '10,2', 'group': null, 'selected': false },
+  $: radiusArray.forEach(element => {
+    element.selected = false
+    if(element.value == radius) {
+      element.selected = true
+      radiusArray = radiusArray
+    }
+  })
+
+  $: dashArray = [
+    { 'value': '1 2', 'label': 'S', 'group': null, 'selected': true },
+    { 'value': '2 3', 'label': 'M', 'group': null, 'selected': false },
+    { 'value': '4 5', 'label': 'L', 'group': null, 'selected': false },
+    { 'value': '10 2', 'label': 'XL', 'group': null, 'selected': false },
   ]
 
+  $: dashArray.forEach(element => {
+    element.selected = false
+    if(element.value == stroke) {
+      element.selected = true
+      dashArray = dashArray
+    }
+  })
 
   $: reactiveTheme = theme
 
   let colors = [
+    {color: "yellow"},
+    {color: "lime"},
     {color: "blue"},
     {color: "purple"},
     {color: "pink"},
-    {color: "yellow"},
-    {color: "lime"},
     {color: "black"},
     {color: "white"},
-  ]
-
-  let sizes = [
-    {size: "small", symbol: "S"},
-    {size: "medium", symbol: "M"},
-    {size: "large", symbol: "L"},
   ]
 
   function updateTheme(theme, size, radius, stroke) {
@@ -56,7 +73,7 @@
       radius: radius,
       stroke: stroke
     })
-    console.log(theme,size, radius, stroke)
+    // console.log(theme,size, radius, stroke)
   }
 
 </script>

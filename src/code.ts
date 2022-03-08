@@ -4,14 +4,17 @@ let r = 221
 let g = 0
 let b = 169
 let fontsize = 12
+let radiusSize = 0
+let dash = "1 2"
 let frameId = ''
-let getTheme
+let getTheme, getSize, getRadius, getStroke
 
 let arrayAll = [] as any
 let page = figma.currentPage
 
 function setStorage(storageName,storageValue) {
   figma.clientStorage.setAsync(storageName, JSON.stringify(storageValue)).catch(err => { console.log('error setting data') })
+  console.log("storage set",storageName,storageValue)
 }
 
 function getSavedColor() {
@@ -20,9 +23,62 @@ function getSavedColor() {
       let data = (theme) ? JSON.parse(theme) : [] ;
       success(data)
       getTheme = data
-      figma.ui.postMessage({
-        'theme': data
-      })
+      if(getTheme.length){
+        figma.ui.postMessage({
+          'theme': data
+        })
+      }
+    }).catch(err => {
+      error(err)
+    })
+  })
+}
+
+function getSavedSize() {
+  return new Promise((success, error) => {
+    figma.clientStorage.getAsync('size').then(size => {
+      let data = (size) ? JSON.parse(size) : [] ;
+      success(data)
+      getSize = data
+      if(getSize.length){
+        figma.ui.postMessage({
+          'size': data
+        })
+      }
+    }).catch(err => {
+      error(err)
+    })
+  })
+}
+
+function getSavedRadius() {
+  return new Promise((success, error) => {
+    figma.clientStorage.getAsync('radius').then(radius => {
+      let data = (radius) ? JSON.parse(radius) : [] ;
+      success(data)
+      getRadius = data
+      if(getRadius.length){
+        figma.ui.postMessage({
+          'radius': data
+        })
+      }
+    }).catch(err => {
+      error(err)
+    })
+  })
+}
+
+function getSavedStroke() {
+  return new Promise((success, error) => {
+    figma.clientStorage.getAsync('stroke').then(stroke => {
+      let data = (stroke) ? JSON.parse(stroke) : [] ;
+      success(data)
+      getStroke = data
+      if(getStroke.length) {
+        figma.ui.postMessage({
+          'stroke': data
+        })
+      }
     }).catch(err => {
       error(err)
     })
@@ -32,6 +88,9 @@ function getSavedColor() {
 figma.showUI(__html__, {width: 260, height: 322 })
 
 getSavedColor()
+getSavedSize()
+getSavedRadius()
+getSavedStroke()
 
 function fireItUp(){
 
@@ -78,7 +137,7 @@ function fireItUp(){
 
             sides.forEach(side => {
 
-              function create(rectHeight,rectWidth,rectX,rectY,textHeight,textwidth,textChar,textRotate,textX,textY) {
+              function create(rectHeight,rectWidth,rectX,rectY,textHeight,textwidth,textChar,textRotate,textX,textY,dash) {
                 
                 const rect = figma.createRectangle()
                 const text = figma.createText()
@@ -87,7 +146,20 @@ function fireItUp(){
                 rect.strokeWeight = 1
                 rect.fills = [{type: 'SOLID', opacity: 0.1, color: {r: color1, g: color2, b: color3}}]
                 rect.strokes = [{type: 'SOLID', color: {r: color1, g: color2, b: color3}}]
-                rect.dashPattern = [2,2]
+                rect.cornerRadius = radiusSize
+                if (dash == "1 2") {
+                  rect.dashPattern = [2,2]
+                }
+                if(dash == "2 3") {
+                  rect.dashPattern = [2,3]
+                }
+                if(dash == "4 5") {
+                  rect.dashPattern = [4,5]
+                }
+                if(dash == "10 2") {
+                  rect.dashPattern = [10,2]
+                }
+                
                 rect.x = rectX
                 rect.y = rectY
                 text.resize(textwidth,textHeight)
@@ -106,22 +178,22 @@ function fireItUp(){
 
               if (side == 'Right') {
                 if (widthRight) {
-                  create(height,widthRight, newX + node.width - node.paddingRight, newY, widthRight,height, widthRight, 90, newX + node.width - node.paddingRight, newY + height)
+                  create(height,widthRight, newX + node.width - node.paddingRight, newY, widthRight,height, widthRight, 90, newX + node.width - node.paddingRight, newY + height, dash)
                 }
               }
               if (side == 'Left') {
                 if (widthLeft) {
-                  create(height,widthLeft, newX, newY, widthLeft, height, widthLeft, 90, newX, newY + height)
+                  create(height,widthLeft, newX, newY, widthLeft, height, widthLeft, 90, newX, newY + height, dash)
                 }
               }
               if (side == 'Top') {
                 if (heightTop) {
-                  create(heightTop,width, newX, newY, heightTop, width, heightTop, 0, newX, newY)
+                  create(heightTop,width, newX, newY, heightTop, width, heightTop, 0, newX, newY, dash)
                 }
               }
               if (side == 'Bottom') {
                 if (heigthBottom) {
-                  create(heigthBottom,width, newX, newY + node.height - heigthBottom, heigthBottom, width, heigthBottom, 0, newX, newY + node.height - heigthBottom)
+                  create(heigthBottom,width, newX, newY + node.height - heigthBottom, heigthBottom, width, heigthBottom, 0, newX, newY + node.height - heigthBottom, dash)
                 }
               }
             })
@@ -164,7 +236,22 @@ function fireItUp(){
                   rect.strokeWeight = 1
                   rect.fills = [{type: 'SOLID', opacity: 0.1, color: {r: color1, g: color2, b: color3}}]
                   rect.strokes = [{type: 'SOLID', color: {r: color1, g: color2, b: color3}}]
-                  rect.dashPattern = [2,2]
+
+                  rect.cornerRadius = radiusSize
+
+                  if (dash == "1 2") {
+                    rect.dashPattern = [2,2]
+                  }
+                  if(dash == "2 3") {
+                    rect.dashPattern = [2,3]
+                  }
+                  if(dash == "4 5") {
+                    rect.dashPattern = [4,5]
+                  }
+                  if(dash == "10 2") {
+                    rect.dashPattern = [10,2]
+                  }
+
                   text.characters = node.itemSpacing.toString()
                   text.fills = [{type: 'SOLID', color: {r: color1, g: color2, b: color3}}]
                   text.textAlignHorizontal = 'CENTER'
@@ -201,8 +288,14 @@ figma.ui.onmessage = msg => {
   page = figma.currentPage
 
   if (msg.type === 'outline') {
-    // console.log(msg.theme, msg.size)
+    
     setStorage('theme', msg.theme)
+    setStorage('size', msg.size)
+    setStorage('radius', msg.radius)
+    setStorage('stroke', msg.stroke)
+
+    dash = msg.stroke
+    // radiusSize = msg.radius
 
     switch(msg.theme){
       case "blue":
@@ -223,7 +316,7 @@ figma.ui.onmessage = msg => {
       case "yellow":
         r = 255
         g = 221
-        g = 57
+        b = 57
         break
       case "lime":
         r = 22
@@ -254,9 +347,23 @@ figma.ui.onmessage = msg => {
         break
     }
 
+    switch(msg.radius){
+      case "small":
+        radiusSize = 0
+        break
+      case "medium":
+        radiusSize = 5
+        break
+      case "large":
+        radiusSize = 10
+        break
+    }
+
     fireItUp()
   }
-};
+}
+
+
 
 
 

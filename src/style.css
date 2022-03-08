@@ -2,6 +2,7 @@
   --white: hsla(0, 0%, 100%, 1);
   --black: hsla(0, 0%, 14%, 1);
   --grey: hsla(0, 0%, 94%, 1);
+  --grey-light: hsla(0, 0%, 92%, 1);
   --grey-dark: hsla(0, 6%, 83%, 1);
   --border: hsla(0, 0%, 90%, 1);
   --rainbow: conic-gradient(from 128.8deg at 49.47% 51.06%, #FFC062 -79.73deg, #1ABCFE 1.15deg, #0ACF83 78.48deg, #A259FF 144.34deg, #F21E6A 208.99deg, #FFC062 280.27deg, #1ABCFE 361.15deg);
