@@ -1,20 +1,20 @@
 figma.loadFontAsync({ family: "Roboto", style: "Regular" })
+import { hexToFigmaRGB } from "../node_modules/@figma-plugin/helpers/dist/helpers/convertColor"
 
-let r = 221
-let g = 0
-let b = 169
 let fontsize = 12
 let radiusSize = 0
 let dash = "1 2"
-let frameId = ''
 let getTheme, getSize, getRadius, getStroke
 
 let arrayAll = [] as any
 let page = figma.currentPage
 
+let colorBorder = hexToFigmaRGB("#0072DC")
+let colorText = hexToFigmaRGB("#0072DC")
+let colorFill = hexToFigmaRGB("#0072DC")
+
 function setStorage(storageName,storageValue) {
   figma.clientStorage.setAsync(storageName, JSON.stringify(storageValue)).catch(err => { console.log('error setting data') })
-  console.log("storage set",storageName,storageValue)
 }
 
 function getSavedColor() {
@@ -94,10 +94,6 @@ getSavedStroke()
 
 function fireItUp(){
 
-  let color1 = r/255
-  let color2 = g/255
-  let color3 = b/255
-
   setTimeout(function(){
 
     const nodes = figma.currentPage.selection
@@ -120,18 +116,13 @@ function fireItUp(){
             let transformPos = node.absoluteTransform
             let newX = transformPos[0][2]
             let newY = transformPos[1][2] 
-
             let widthRight = node.paddingRight
             let heigthBottom = node.paddingBottom
             let widthLeft = node.paddingLeft
             let heightTop = node.paddingTop
             let height = node.height
             let width = node.width
-
-            // frameId = node.id
-
             let sides = ['Top', 'Right', 'Bottom', 'Left']
-
             let children = node.children
             children = children.slice(0, -1)
 
@@ -144,8 +135,8 @@ function fireItUp(){
                 rect.resize(rectWidth,rectHeight)
                 rect.name = node.name + " : " + side
                 rect.strokeWeight = 1
-                rect.fills = [{type: 'SOLID', opacity: 0.1, color: {r: color1, g: color2, b: color3}}]
-                rect.strokes = [{type: 'SOLID', color: {r: color1, g: color2, b: color3}}]
+                rect.fills = [{type: 'SOLID', opacity: 0.1, color: colorFill}]
+                rect.strokes = [{type: 'SOLID', color: colorBorder}]
                 rect.cornerRadius = radiusSize
                 if (dash == "1 2") {
                   rect.dashPattern = [2,2]
@@ -163,7 +154,7 @@ function fireItUp(){
                 rect.x = rectX
                 rect.y = rectY
                 text.resize(textwidth,textHeight)
-                text.fills = [{type: 'SOLID', color: {r: color1, g: color2, b: color3}}]
+                text.fills = [{type: 'SOLID', color: colorText}]
                 text.textAlignHorizontal = 'CENTER'
                 text.textAlignVertical = 'CENTER'
                 text.fontSize = fontsize
@@ -197,8 +188,6 @@ function fireItUp(){
                 }
               }
             })
-
-            // console.log(children)
 
             if(node.itemSpacing) {
 
@@ -234,8 +223,8 @@ function fireItUp(){
                   }
 
                   rect.strokeWeight = 1
-                  rect.fills = [{type: 'SOLID', opacity: 0.1, color: {r: color1, g: color2, b: color3}}]
-                  rect.strokes = [{type: 'SOLID', color: {r: color1, g: color2, b: color3}}]
+                  rect.fills = [{type: 'SOLID', opacity: 0.1, color: colorFill}]
+                  rect.strokes = [{type: 'SOLID', color: colorBorder}]
 
                   rect.cornerRadius = radiusSize
 
@@ -253,7 +242,7 @@ function fireItUp(){
                   }
 
                   text.characters = node.itemSpacing.toString()
-                  text.fills = [{type: 'SOLID', color: {r: color1, g: color2, b: color3}}]
+                  text.fills = [{type: 'SOLID', color: colorText}]
                   text.textAlignHorizontal = 'CENTER'
                   text.textAlignVertical = 'CENTER'
                   text.fontSize = fontsize
@@ -265,7 +254,6 @@ function fireItUp(){
           }
         }
       })
-      // console.log(arrayAll.length)
 
       if (arrayAll.length >= 1) {
         let group = figma.group(arrayAll,page)
@@ -295,43 +283,42 @@ figma.ui.onmessage = msg => {
     setStorage('stroke', msg.stroke)
 
     dash = msg.stroke
-    // radiusSize = msg.radius
 
     switch(msg.theme){
       case "blue":
-        r = 0
-        g = 114
-        b = 220
+        colorBorder = hexToFigmaRGB("#0072DC")
+        colorText = hexToFigmaRGB("#0072DC")
+        colorFill = hexToFigmaRGB("#0072DC")
         break
       case "purple":
-        r = 94
-        g = 64
-        b = 248
+        colorBorder = hexToFigmaRGB("#5E40F8")
+        colorText = hexToFigmaRGB("#5E40F8")
+        colorFill = hexToFigmaRGB("#7B61FF")
         break
       case "pink":
-        r = 221
-        g = 0
-        b = 169
+        colorBorder = hexToFigmaRGB("#DD00A9")
+        colorText = hexToFigmaRGB("#DD00A9")
+        colorFill = hexToFigmaRGB("#DD00A9")
         break
       case "yellow":
-        r = 255
-        g = 221
-        b = 57
+        colorBorder = hexToFigmaRGB("#A07D00")
+        colorText = hexToFigmaRGB("#4d3c00")
+        colorFill = hexToFigmaRGB("#FFD339")
         break
       case "lime":
-        r = 22
-        g = 255
-        b = 208
+        colorBorder = hexToFigmaRGB("#01856A")
+        colorText = hexToFigmaRGB("#024538")
+        colorFill = hexToFigmaRGB("#16FFD0")
         break
       case "black":
-        r = 0
-        g = 0
-        b = 0
+        colorBorder = hexToFigmaRGB("#000000")
+        colorText = hexToFigmaRGB("#000000")
+        colorFill = hexToFigmaRGB("#000000")
         break
       case "white":
-        r = 255
-        g = 255
-        b = 255
+        colorBorder = hexToFigmaRGB("#FFFFFF")
+        colorText = hexToFigmaRGB("#FFFFFF")
+        colorFill = hexToFigmaRGB("#FFFFFF")
         break
     }
 

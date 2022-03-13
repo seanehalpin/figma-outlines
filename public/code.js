@@ -1,18 +1,126 @@
 'use strict';
 
+function unwrapExports (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var convertColor = createCommonjsModule(function (module, exports) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.figmaRGBToWebRGB = figmaRGBToWebRGB;
+exports.webRGBToFigmaRGB = webRGBToFigmaRGB;
+exports.figmaRGBToHex = figmaRGBToHex;
+exports.hexToFigmaRGB = hexToFigmaRGB;
+const namesRGB = ['r', 'g', 'b'];
+/**
+ * this function converts figma color to RGB(A) (array)
+ */
+// figmaRGBToWebRGB({r: 0.887499988079071, g: 0.07058823853731155, b: 0.0665624737739563})
+//=> [226, 18, 17]
+
+function figmaRGBToWebRGB(color) {
+  const rgb = [];
+  namesRGB.forEach((e, i) => {
+    rgb[i] = Math.round(color[e] * 255);
+  });
+  if (color['a'] !== undefined) rgb[3] = Math.round(color['a'] * 100) / 100;
+  return rgb;
+}
+/**
+ * this function converts RGB(A) color (array) to figma color
+ */
+// webRGBToFigmaRGB([226, 18, 17])
+//=> {r: 0.8862745098039215, g: 0.07058823529411765, b: 0.06666666666666667}
+
+
+function webRGBToFigmaRGB(color) {
+  const rgb = {};
+  namesRGB.forEach((e, i) => {
+    rgb[e] = color[i] / 255;
+  });
+  if (color[3] !== undefined) rgb['a'] = color[3];
+  return rgb;
+}
+/**
+ * this function converts figma color to HEX (string)
+ */
+// figmaRGBToHex({ r: 0, g: 0.1, b: 1 })
+//=> #001aff
+
+
+function figmaRGBToHex(color) {
+  let hex = '#';
+  const rgb = figmaRGBToWebRGB(color);
+  hex += ((1 << 24) + (rgb[0] << 16) + (rgb[1] << 8) + rgb[2]).toString(16).slice(1);
+
+  if (rgb[3] !== undefined) {
+    const a = Math.round(rgb[3] * 255).toString(16);
+
+    if (a.length == 1) {
+      hex += '0' + a;
+    } else {
+      if (a !== 'ff') hex += a;
+    }
+  }
+
+  return hex;
+}
+/**
+ * this function converts HEX color (string) to figma color
+ */
+// hexToFigmaRGB(#001aff)
+//=> { r: 0, g: 0.10196078431372549, b: 1 }
+
+
+function hexToFigmaRGB(color) {
+  let opacity = '';
+  color = color.toLowerCase();
+  if (color[0] === '#') color = color.slice(1);
+
+  if (color.length === 3) {
+    color = color.replace(/(.)(.)(.)?/g, '$1$1$2$2$3$3');
+  } else if (color.length === 8) {
+    const arr = color.match(/(.{6})(.{2})/);
+    color = arr[1];
+    opacity = arr[2];
+  }
+
+  const num = parseInt(color, 16);
+  const rgb = [num >> 16, num >> 8 & 255, num & 255];
+
+  if (opacity) {
+    rgb.push(parseInt(opacity, 16) / 255);
+    return webRGBToFigmaRGB(rgb);
+  } else {
+    return webRGBToFigmaRGB(rgb);
+  }
+}
+});
+
+unwrapExports(convertColor);
+var convertColor_1 = convertColor.figmaRGBToWebRGB;
+var convertColor_2 = convertColor.webRGBToFigmaRGB;
+var convertColor_3 = convertColor.figmaRGBToHex;
+var convertColor_4 = convertColor.hexToFigmaRGB;
+
 figma.loadFontAsync({ family: "Roboto", style: "Regular" });
-let r = 221;
-let g = 0;
-let b = 169;
 let fontsize = 12;
 let radiusSize = 0;
 let dash = "1 2";
 let getTheme, getSize, getRadius, getStroke;
 let arrayAll = [];
 let page = figma.currentPage;
+let colorBorder = convertColor_4("#0072DC");
+let colorText = convertColor_4("#0072DC");
+let colorFill = convertColor_4("#0072DC");
 function setStorage(storageName, storageValue) {
     figma.clientStorage.setAsync(storageName, JSON.stringify(storageValue)).catch(err => { console.log('error setting data'); });
-    console.log("storage set", storageName, storageValue);
 }
 function getSavedColor() {
     return new Promise((success, error) => {
@@ -84,9 +192,6 @@ getSavedSize();
 getSavedRadius();
 getSavedStroke();
 function fireItUp() {
-    let color1 = r / 255;
-    let color2 = g / 255;
-    let color3 = b / 255;
     setTimeout(function () {
         const nodes = figma.currentPage.selection;
         let selectedLayers = nodes;
@@ -109,7 +214,6 @@ function fireItUp() {
                         let heightTop = node.paddingTop;
                         let height = node.height;
                         let width = node.width;
-                        // frameId = node.id
                         let sides = ['Top', 'Right', 'Bottom', 'Left'];
                         let children = node.children;
                         children = children.slice(0, -1);
@@ -120,8 +224,8 @@ function fireItUp() {
                                 rect.resize(rectWidth, rectHeight);
                                 rect.name = node.name + " : " + side;
                                 rect.strokeWeight = 1;
-                                rect.fills = [{ type: 'SOLID', opacity: 0.1, color: { r: color1, g: color2, b: color3 } }];
-                                rect.strokes = [{ type: 'SOLID', color: { r: color1, g: color2, b: color3 } }];
+                                rect.fills = [{ type: 'SOLID', opacity: 0.1, color: colorFill }];
+                                rect.strokes = [{ type: 'SOLID', color: colorBorder }];
                                 rect.cornerRadius = radiusSize;
                                 if (dash == "1 2") {
                                     rect.dashPattern = [2, 2];
@@ -138,7 +242,7 @@ function fireItUp() {
                                 rect.x = rectX;
                                 rect.y = rectY;
                                 text.resize(textwidth, textHeight);
-                                text.fills = [{ type: 'SOLID', color: { r: color1, g: color2, b: color3 } }];
+                                text.fills = [{ type: 'SOLID', color: colorText }];
                                 text.textAlignHorizontal = 'CENTER';
                                 text.textAlignVertical = 'CENTER';
                                 text.fontSize = fontsize;
@@ -170,7 +274,6 @@ function fireItUp() {
                                 }
                             }
                         });
-                        // console.log(children)
                         if (node.itemSpacing) {
                             children.forEach(child => {
                                 if (child.visible == true) {
@@ -199,8 +302,8 @@ function fireItUp() {
                                         rect.y = newY;
                                     }
                                     rect.strokeWeight = 1;
-                                    rect.fills = [{ type: 'SOLID', opacity: 0.1, color: { r: color1, g: color2, b: color3 } }];
-                                    rect.strokes = [{ type: 'SOLID', color: { r: color1, g: color2, b: color3 } }];
+                                    rect.fills = [{ type: 'SOLID', opacity: 0.1, color: colorFill }];
+                                    rect.strokes = [{ type: 'SOLID', color: colorBorder }];
                                     rect.cornerRadius = radiusSize;
                                     if (dash == "1 2") {
                                         rect.dashPattern = [2, 2];
@@ -215,7 +318,7 @@ function fireItUp() {
                                         rect.dashPattern = [10, 2];
                                     }
                                     text.characters = node.itemSpacing.toString();
-                                    text.fills = [{ type: 'SOLID', color: { r: color1, g: color2, b: color3 } }];
+                                    text.fills = [{ type: 'SOLID', color: colorText }];
                                     text.textAlignHorizontal = 'CENTER';
                                     text.textAlignVertical = 'CENTER';
                                     text.fontSize = fontsize;
@@ -227,7 +330,6 @@ function fireItUp() {
                     }
                 }
             });
-            // console.log(arrayAll.length)
             if (arrayAll.length >= 1) {
                 let group = figma.group(arrayAll, page);
                 group.name = "Outline";
@@ -250,42 +352,41 @@ figma.ui.onmessage = msg => {
         setStorage('radius', msg.radius);
         setStorage('stroke', msg.stroke);
         dash = msg.stroke;
-        // radiusSize = msg.radius
         switch (msg.theme) {
             case "blue":
-                r = 0;
-                g = 114;
-                b = 220;
+                colorBorder = convertColor_4("#0072DC");
+                colorText = convertColor_4("#0072DC");
+                colorFill = convertColor_4("#0072DC");
                 break;
             case "purple":
-                r = 94;
-                g = 64;
-                b = 248;
+                colorBorder = convertColor_4("#5E40F8");
+                colorText = convertColor_4("#5E40F8");
+                colorFill = convertColor_4("#7B61FF");
                 break;
             case "pink":
-                r = 221;
-                g = 0;
-                b = 169;
+                colorBorder = convertColor_4("#DD00A9");
+                colorText = convertColor_4("#DD00A9");
+                colorFill = convertColor_4("#DD00A9");
                 break;
             case "yellow":
-                r = 255;
-                g = 221;
-                b = 57;
+                colorBorder = convertColor_4("#A07D00");
+                colorText = convertColor_4("#4d3c00");
+                colorFill = convertColor_4("#FFD339");
                 break;
             case "lime":
-                r = 22;
-                g = 255;
-                b = 208;
+                colorBorder = convertColor_4("#01856A");
+                colorText = convertColor_4("#024538");
+                colorFill = convertColor_4("#16FFD0");
                 break;
             case "black":
-                r = 0;
-                g = 0;
-                b = 0;
+                colorBorder = convertColor_4("#000000");
+                colorText = convertColor_4("#000000");
+                colorFill = convertColor_4("#000000");
                 break;
             case "white":
-                r = 255;
-                g = 255;
-                b = 255;
+                colorBorder = convertColor_4("#FFFFFF");
+                colorText = convertColor_4("#FFFFFF");
+                colorFill = convertColor_4("#FFFFFF");
                 break;
         }
         switch (msg.size) {

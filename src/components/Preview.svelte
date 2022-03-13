@@ -17,28 +17,28 @@
 </script>
 
 <div class="preview-holder {theme}">
-  <div class="preview {theme} {size}">
-    <div class="hilite top {theme}">
+  <div class="preview {theme} {size} {radius}-radius">
+    <div class="hilite top {theme} {radius}-radius">
       {text}
-      <svg class="{theme} {radius}-radius" width="228" height="20" viewBox="0 0 228 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="{theme}" width="228" height="20" viewBox="0 0 228 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0.5" y="0.5" width="227" height="19" stroke={theme} rx={rx} stroke-dasharray={stroke} />
       </svg>
     </div>
-    <div class="hilite bottom {theme}" style="border-radius: {radius}px;">
+    <div class="hilite bottom {theme} {radius}-radius" style="border-radius: {radius}px;">
       {text}
-      <svg class="{theme} {radius}-radius" width="228" height="20" viewBox="0 0 228 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="{theme}" width="228" height="20" viewBox="0 0 228 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0.5" y="0.5" width="227" height="19" stroke={theme} rx={rx} stroke-dasharray={stroke} />
       </svg>
     </div>
-    <div class="hilite left {theme}" style="border-radius: {radius}px;">
+    <div class="hilite left {theme} {radius}-radius" style="border-radius: {radius}px;">
       <span>{text}</span>
-      <svg class="{theme} {radius}-radius" width="20" height="70" viewBox="0 0 20 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="{theme}" width="20" height="70" viewBox="0 0 20 70" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="0" width="20" height="70" stroke={theme} rx={rx} stroke-dasharray={stroke} />
       </svg>
     </div>
-    <div class="hilite right {theme}" style="border-radius: {radius}px;">
+    <div class="hilite right {theme} {radius}-radius" style="border-radius: {radius}px;">
       <span>{text}</span>
-      <svg class="{theme} {radius}-radius" width="20" height="70" viewBox="0 0 20 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="{theme}" width="20" height="70" viewBox="0 0 20 70" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="0" width="20" height="70" stroke={theme} rx={rx} stroke-dasharray={stroke} />
       </svg>
     </div>
@@ -178,7 +178,6 @@
     color: var(--black);
   }
 
-
   .preview-holder.blue {
     background-color: var(--blue-bg);
   }
@@ -199,6 +198,16 @@
   }
   .preview-holder.white {
     background-color: var(--charcoal-bg);
+  }
+
+  .small-radius {
+    border-radius: 0;
+  }
+  .medium-radius {
+    border-radius: 5px;
+  }
+  .large-radius {
+    border-radius: 10px;
   }
 
 </style>
